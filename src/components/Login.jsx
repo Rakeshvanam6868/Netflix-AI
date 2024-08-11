@@ -1,8 +1,30 @@
-import {useState} from 'react';
+import {useRef, useState} from 'react';
 import Header from './Header';
+import { checkValidateData } from '../utils/validateForm';
 
 const Login = () => {
   const [isSignInForm, setIsSignForm] = useState(true);
+  const [errorMessage, setErrorMessage]=useState();
+
+  const email=useRef(null);
+  const password=useRef(null);
+  const fullname=useRef(null);
+  
+  const handleButtonClick = ()=>{ 
+    const emailValue = email.current.value;
+    const passwordValue = password.current.value;
+    const fullnameValue = fullname.current ? fullname.current.value : "";
+
+    // console.log(emailValue);
+    // console.log(passwordValue);
+    // if (!isSignInForm) {
+    //     console.log(fullnameValue);
+    // }
+    
+    const message = checkValidateData(emailValue, passwordValue, fullnameValue,isSignInForm);
+    console.log(message);
+    setErrorMessage(message);
+  };
 
   const toggleSignInForm= ()=>{
      setIsSignForm(!isSignInForm);
@@ -19,23 +41,31 @@ const Login = () => {
         <div className="absolute inset-0 bg-black bg-opacity-50 w-full h-dvh"></div>
       </div>
       <div className="flex justify-center items-center  pt-96">
-      <form action="" className="absolute bg-black bg-opacity-70 p-16 flex gap-4 flex-col rounded-sm mt-10">
+      <form onSubmit={(e)=> e.preventDefault()} action="" className="absolute bg-black bg-opacity-70 p-16 flex gap-4 flex-col rounded-sm mt-10">
         <h1 className="text-white text-4xl font-bold mb-1">{isSignInForm? "Sign In" : "Sign up"}</h1>
        {!isSignInForm && <input type="text" 
+          ref={fullname}
           placeholder='Full Name'
+          
           className='p-4 mt-2 w-80 h-14 border border-gray-500  bg-neutral-800 bg-opacity-40 rounded-sm text-white'
         />}
-        <input type="text" 
+        <input type="email" 
+          ref={email}
+          
           placeholder='Email or mobile number'
           className='p-4 mt-2 w-80 h-14 border border-gray-500  bg-neutral-800 bg-opacity-40 rounded-sm text-white'
         />
-         <input type="text" 
+         <input type="password" 
+          ref={password}
           placeholder='Password'
           className='p-2 mt-1 w-80 h-14 border  border-gray-500  bg-neutral-800 bg-opacity-40 rounded-sm text-white'
         />
-        <button className="mt-1 w-80 h-10 bg-red-600 text-white text-lg font-medium rounded-md">
+        <button onClick={handleButtonClick} className="mt-1 w-80 h-10 bg-red-600 text-white text-lg font-medium rounded-md">
         {isSignInForm? "Sign In" : "Sign up"}
         </button>
+        <p className="text-red-500">
+          {errorMessage}
+        </p>
         {isSignInForm && <p className='text-gray-300 ml-36'>OR</p>}
         {isSignInForm && <button className="mt-1 w-80 h-10 bg-slate-100 bg-opacity-20 text-white text-lg font-medium rounded-md">
           Use a sign-in code

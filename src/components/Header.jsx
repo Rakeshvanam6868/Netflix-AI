@@ -2,7 +2,7 @@ import React from 'react'
 
 const Header = () => {
   return (
-    <div className="absolute z-10 w-48 mt-1 ml-32" >
+    <div className="absolute z-10 lg:w-48 lg:mt-1 lg:ml-32 w-28 ml-4 mt-2" >
         <img src="https://cdn.cookielaw.org/logos/dd6b162f-1a32-456a-9cfe-897231c7763c/4345ea78-053c-46d2-b11e-09adaef973dc/Netflix_Logo_PMS.png" alt="" />
     </div>
   )
